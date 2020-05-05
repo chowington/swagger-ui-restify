@@ -19,8 +19,9 @@ const app = restify.createServer();
 const swaggerUi = require('swagger-ui-restify');
 const swaggerDocument = require('./swagger.json');
 
-app.get(/\/api-docs\/+.*/, ...swaggerUi.serve)
-app.get('/api-docs', swaggerUi.setup(swaggerDocument));
+let docPath = '/api-docs';
+app.get(docPath + '/*', ...swaggerUi.serve);
+app.get(docPath, swaggerUi.setup(swaggerDocument, {baseURL: docPath}));
 ```
 
 Open http://`<app_host>`:`<app_port>`/api-docs in your browser to view the documentation.
@@ -33,8 +34,9 @@ If you are using swagger-jsdoc simply pass the swaggerSpec into the setup functi
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 const swaggerSpec = swaggerJSDoc(options);
 
-app.get(/\/api-docs\/+.*/, ...swaggerUi.serve)
-app.get('/api-docs', swaggerUi.setup(swaggerSpec));
+let docPath = '/api-docs';
+app.get(docPath + '/*', ...swaggerUi.serve);
+app.get(docPath, swaggerUi.setup(swaggerSpec, {baseURL: docPath}));
 ```
 
 ### Swagger Explorer
@@ -47,13 +49,14 @@ const app = restify.createServer();
 const swaggerUi = require('swagger-ui-restify');
 const swaggerDocument = require('./swagger.json');
 
-var options = {
+let docPath = '/api-docs';
+let opts = {
   explorer: true,
-  baseURL: 'api-docs',
+  baseURL: docPath,
 };
 
-app.get(/\/api-docs\/+.*/, ...swaggerUi.serve)
-app.get('/api-docs', swaggerUi.setup(swaggerDocument, options));
+app.get(docPath + '/*', ...swaggerUi.serve)
+app.get(docPath, swaggerUi.setup(swaggerDocument, opts));
 ```
 
 ### Custom swagger options
@@ -66,15 +69,16 @@ const app = restify.createServer();
 const swaggerUi = require('swagger-ui-restify');
 const swaggerDocument = require('./swagger.json');
 
-var options = {
-	swaggerOptions: {
+let docPath = '/api-docs';
+let opts = {
+  swaggerOptions: {
     validatorUrl: null,
   },
-  baseURL: 'api-docs',
+  baseURL: docPath,
 };
 
-app.get(/\/api-docs\/+.*/, ...swaggerUi.serve)
-app.get('/api-docs', swaggerUi.setup(swaggerDocument, options));
+app.get(docPath + '/*', ...swaggerUi.serve)
+app.get(docPath, swaggerUi.setup(swaggerDocument, opts));
 ```
 
 ### Custom CSS styles
@@ -89,13 +93,14 @@ const app = restify.createServer();
 const swaggerUi = require('swagger-ui-restify');
 const swaggerDocument = require('./swagger.json');
 
-var options = {
+let docPath = '/api-docs';
+let options = {
   customCss: '.swagger-ui .topbar { display: none }',
-  baseURL: 'api-docs',
+  baseURL: docPath,
 };
 
-app.get(/\/api-docs\/+.*/, ...swaggerUi.serve)
-app.get('/api-docs', swaggerUi.setup(swaggerDocument, options));
+app.get(docPath + '/*', ...swaggerUi.serve)
+app.get(docPath, swaggerUi.setup(swaggerDocument, opts));
 ```
 
 ### Custom JS
@@ -108,13 +113,14 @@ const app = restify.createServer();
 const swaggerUi = require('swagger-ui-restify');
 const swaggerDocument = require('./swagger.json');
 
-var options = {
+let docPath = '/api-docs';
+let options = {
   customJs: '/custom.js',
-  baseURL: 'api-docs',
+  baseURL: docPath,
 };
 
-app.get(/\/api-docs\/+.*/, ...swaggerUi.serve)
-app.get('/api-docs', swaggerUi.setup(swaggerDocument, options));
+app.get(docPath + '/*', ...swaggerUi.serve)
+app.get(docPath, swaggerUi.setup(swaggerDocument, opts));
 ```
 
 ### Load swagger from url
@@ -126,13 +132,14 @@ const restify = require('restify');
 const app = restify.createServer();
 const swaggerUi = require('swagger-ui-restify');
 
-var options = {
+let docPath = '/api-docs';
+let options = {
   swaggerUrl: 'http://petstore.swagger.io/v2/swagger.json',
-  baseURL: 'api-docs',
+  baseURL: docPath,
 }
 
-app.get(/\/api-docs\/+.*/, ...swaggerUi.serve)
-app.get('/api-docs', swaggerUi.setup(null, options));
+app.get(docPath + '/*', ...swaggerUi.serve)
+app.get(docPath, swaggerUi.setup(swaggerDocument, opts));
 ```
 
 ### Load swagger from yaml file
@@ -148,8 +155,9 @@ const swaggerUi = require('swagger-ui-restify');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml');
 
-app.get(/\/api-docs\/+.*/, ...swaggerUi.serve)
-app.get('/api-docs', swaggerUi.setup(swaggerDocument, { baseURL: 'api-docs' }));
+let docPath = '/api-docs';
+app.get(docPath + '/*', ...swaggerUi.serve);
+app.get(docPath, swaggerUi.setup(swaggerDocument, {baseURL: docPath}));
 ```
 
 ## Requirements
